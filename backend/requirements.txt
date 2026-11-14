@@ -1,0 +1,7 @@
+# Dépendances du backend CrâniScan (Python ≥ 3.10)
+# Installation : python -m pip install -r requirements.txt
+fastapi>=0.110
+uvicorn[standard]>=0.29
+# Pour les tests unitaires :
+pytest>=8.0
+httpx>=0.27

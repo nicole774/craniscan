@@ -1,0 +1,27 @@
+# ── Python ────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── Environnement & secrets (JAMAIS dans Git) ─────────────────────────────
+.env
+.env.*
+*.key
+
+# ── Base de données locale (données patients → jamais sur GitHub) ────────
+*.db
+*.sqlite
+*.sqlite3
+backend/data/
+
+# ── Divers ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+node_modules/
+dist/
+*.log

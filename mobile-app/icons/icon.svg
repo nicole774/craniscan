@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d47a1"/>
+      <stop offset="1" stop-color="#0288d1"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- profil de crâne -->
+  <path d="M256 108c-72 0-128 52-128 122 0 44 24 76 48 96 8 7 12 16 12 27v17c0 10 8 18 18 18h64c10 0 18-8 18-18v-14c0-8 6-14 14-15 26-4 50-14 50-30 0-10-8-14-14-16 18-16 28-40 28-65 0-70-38-122-110-122z"
+        fill="#e3f2fd" opacity="0.92"/>
+  <!-- yeux -->
+  <circle cx="216" cy="240" r="22" fill="#0d47a1"/>
+  <circle cx="296" cy="240" r="22" fill="#0d47a1"/>
+  <!-- onde de pulse NIRS -->
+  <polyline points="150,360 200,360 218,320 240,395 262,340 278,360 362,360"
+            fill="none" stroke="#4fc3f7" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,6 @@
+# Contrat des fins de ligne : tout le dépôt stocke du LF (Unix),
+# quel que soit l'OS des contributeurs. Résout les warnings LF/CRLF Windows.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ico binary

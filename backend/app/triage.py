@@ -659,25 +659,34 @@ def run_triage(
             reasons.extend(f"Pédiatrie — à surveiller : {r}" for r in pec["medium_risk"])
             return _finish("yellow", reasons, rules_hit, nirs_analysis, pupil_analysis, False, None)
 
-    # ------------------------------------------------------------------ 5
-    # AGRAVATION vs évaluation précédente (trajectoire)
-    worsening = detect_worsening(previous, symptoms, nirs, pupils)
-    if worsening["worsening"]:
-        rules_hit.append("détection_d'aggravation")
-        base = worsening.get("escalate_from") or "green"
-        reasons.extend(worsening["reasons"])
-        new_level = promote(base, 1)
-        return _finish(new_level, reasons, rules_hit, nirs_analysis, pupil_analysis,
-                       True, worsening.get("escalate_from"))
-
-    # ------------------------------------------------------------------ 6
-    # NEW ORLEANS (GCS = 15, tout paraît normal) + symptômes isolés
+    # ------------------------------------------------------------------ 5+6
+    # NEW ORLEANS (GCS = 15) + AGRAVATION (trajectoire) — combinés car les deux
+    # peuvent coexister. PRINCIPE D'OR du triage : quand plusieurs règles
+    # contribuent chacune un niveau de gravité, le verdict FINAL est le MAXIMUM
+    # de toutes les contributions (le plus grave gagne). Jamais « la première
+    # règle qui matche » — sinon une escalade modérée masquerait un critère fort
+    # (bug détecté par le test : céphalée 8/10 downgradée en jaune).
+    nola_hits: List[str] = []
     if gcs == 15:
         nola = new_orleans_criteria(profile.age, symptoms)
         if nola:
             rules_hit.append("New_Orleans_Criteria")
-            reasons.extend(f"New Orleans : {r}" for r in nola)
-            return _finish("orange", reasons, rules_hit, nirs_analysis, pupil_analysis, False, None)
+            nola_hits = [f"New Orleans : {r}" for r in nola]
+
+    worsening = detect_worsening(previous, symptoms, nirs, pupils)
+    if worsening["worsening"]:
+        rules_hit.append("détection_d'aggravation")
+
+    if worsening["worsening"] or nola_hits:
+        reasons.extend(worsening["reasons"])
+        reasons.extend(nola_hits)
+        base_prev = worsening.get("escalate_from") or (previous or {}).get("level") or "green"
+        trajectory_level = promote(base_prev, 1) if worsening["worsening"] else None
+        nola_level = "orange" if nola_hits else None
+        candidates = [l for l in (trajectory_level, nola_level) if l]
+        final_level = max(candidates, key=lambda l: LEVEL_ORDER[l])
+        return _finish(final_level, reasons, rules_hit, nirs_analysis, pupil_analysis,
+                       worsening["worsening"], worsening.get("escalate_from"))
 
     # Symptomatique sans critère fort → surveillance stricte à la maison.
     other_symptoms = (

@@ -1,0 +1,18 @@
+{
+  "name": "CrâniScan — Dépistage traumatisme crânien",
+  "short_name": "CrâniScan",
+  "description": "Après un choc à la tête : examen guidé du crâne, assistant IA, surveillance automatique 72 h. Outil d'aide à l'orientation, ne remplace pas un médecin.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f8fb",
+  "theme_color": "#0d47a1",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
